@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <title>上传资料</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        .container{margin-top: 35px;}
+        #form{margin-top: 35px;}
+        .col-md-6{font-size: 18px;}
+        .col-md-6 input{width: 35px;height: 35px;vertical-align:middle;}
+        label{margin-bottom: 30px;}
+        .col-md-6:nth-child(2){margin-bottom: 40px;}
+        .submit{text-align: center;width: 100%;}
+        #notice{width: 70%;text-align: center;margin: 0 auto;color: #fff;z-index: 1;}
+        input[type=submit]{margin: 70px 0 30px 0;width: 90%;z-index: 0;}
+         @media only screen and (max-width: 600px){
+             .col-md-6{width: 50%;}
+         }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <h4>请选择事故类型:</h4>
+        <form id="form" action="redirect.php" class="row" method="post" onsubmit="return checkForm()">
+       
+            <div class="col-md-6">
+                <input id="1" type="radio" name="raido[]" value="意外">
+                <label for="1">意外</label>
+            </div>
+
+            <div class="col-md-6">
+                <input id="2" type="radio" name="raido[]" value="疾病">
+                <label for="2">疾病</label>
+            </div>
+
+            <div class="col-md-6">
+                <input id="3" type="checkbox" name="checkbox[]" value="门诊医疗">
+                <label for="3">门诊医疗</label>
+            </div>
+
+            <div class="col-md-6">
+                <input id="4" type="checkbox" name="checkbox[]" value="住院医疗">
+                <label for="4">住院医疗</label>
+            </div>
+
+            <div class="col-md-6">
+                <input id="5" type="checkbox" name="checkbox[]" value="住院津贴">
+                <label for="5">住院津贴</label>
+            </div>
+
+            <div class="col-md-6">
+                <input id="6" type="checkbox" name="checkbox[]" value="重大疾病">
+                <label for="6">重大疾病</label>
+            </div>
+
+            <div class="col-md-6">
+                <input id="7" type="checkbox" name="checkbox[]" value="伤残">
+                <label for="7">伤残</label>
+            </div>
+
+            <div class="col-md-6">
+                <input id="8" type="checkbox" name="checkbox[]" value="身故">
+                <label for="8">身故</label>
+            </div>
+
+            <div class="submit">
+                <p id="notice" class="text-danger">&nbsp;</p>
+                <input type="submit" class="btn btn-primary btn-lg form-control" value="下一步">
+            </div>
+        </form>
+    </div>
+
+    <script>
+            var radio = document.getElementsByName('raido[]'),
+                checkbox = document.getElementsByName('checkbox[]'),
+                notice = document.getElementById('notice'),
+                
+                //elememt获得所有标签
+                elements,tagElements,tagValues,
+                noticeStr = "本类型理赔暂只支持传统渠道递交理赔资料，我们已经收到您的报案信息，将有工作人员于5个工作日内与您联系，或直接联系在线客服"  
+            ;
+
+            //获取所有input
+            function getElements(formId){
+                elements = [];
+                tagElements = document.getElementById(formId).getElementsByTagName('input');
+                for(var i=0;i<tagElements.length;i++){
+                    elements.push(tagElements[i]);
+                }
+                elements.pop();
+                return elements;
+            }
+
+            //获取所有checked的值
+            function checkElements(allElements){
+                tagValues = "";
+                for(var i=0;i<allElements.length;i++){
+
+                    //
+
+                    if(allElements[i].checked){
+                        tagValues += allElements[i].value;
+                    }
+                }
+                return tagValues;
+            }
+
+            //加上监听
+            function addInnerHtml(allElements){
+                for(var i=0;i<allElements.length;i++){
+                    allElements[i].addEventListener("change",function(){
+                        notice.innerHTML = "&nbsp";
+                    },false)
+                }
+            }
+            
+            function checkForm(){
+                var tags = getElements('form'),
+                    next = checkElements(tags);
+                addInnerHtml(tags);
+                
+                if(next.length == 0){
+                    console.log("no checked");
+                    notice.innerHTML = "您还没有选择";
+                    return false;
+                }
+                console.log(next);
+                if (next == ("疾病门诊医疗")){
+                    console.log("非保险责任，请重新选择");
+                    notice.innerText = "非保险责任，请重新选择";
+                    return false;
+                }
+                else if(next == "意外门诊医疗" || next == "意外住院医疗住院津贴" || next == "疾病住院医疗住院津贴" || next == "意外门诊医疗住院医疗住院津贴"){
+                    console.log("success");
+                    return true;
+                }
+                console.log(noticeStr);
+                notice.innerText = noticeStr;
+                return false;
+            }
+    </script>
+</body>
+</html>

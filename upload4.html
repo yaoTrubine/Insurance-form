@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <title>Document</title>
+    <style>
+        .preview{background-size: contain; background-repeat: no-repeat; background-position: center center;}
+        .preview img{margin: 20px 20px 0 0;}
+    </style>
+</head>
+<body>
+    <!--意外门诊医疗住院医疗住院津贴-->
+    <div class="container">
+        <form action="" method="post" enctype="multipart/form-data">
+            <input id="fileImage" type="file" name="fileselect[]" multiple="multiple" onchange="javascript:setImagePreviews();" accept="image/*"/>
+            <input type="submit" value="submit">
+        </form>
+        <div class="preview" id="preview"> </div>
+    </div>
+
+   <script>
+       function setImagePreviews(value){
+            var 
+                input = document.getElementById('fileImage'),
+                preview = document.getElementById('preview'),
+                file = input.files;
+            ;
+        preview.innerHTML = "";
+        for(var i=0;i<file.length;i++){
+            preview.innerHTML += "<div style='float:left'><img id='img"+i+"' /></div>";
+            var imgObjectPreview = document.getElementById("img"+i);
+            if(input.files && input.files[i]){
+                imgObjectPreview.style.display = 'block';
+                imgObjectPreview.style.width = '200px';
+                imgObjectPreview.style.height = '200px';
+                imgObjectPreview.src = window.URL.createObjectURL(input.files[i]);
+            }
+        }
+            return true;
+       }
+   </script>
+</body>
+</html>
+
+

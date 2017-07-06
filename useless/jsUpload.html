@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .preview{width: 100%; height: 200px; background-size: contain; background-repeat: no-repeat; background-position: center center;}
+    </style>
+</head>
+<html>
+<body>
+    
+    <div id="test-file-info"></div>
+    <form action="" method="post" enctype="multipart/form-data">
+        <input id="fileImage" type="file" size="30" name="fileselect[]" multiple="multiple" accept="image/*"/>
+        <input type="submit" value="submit">
+    </form>
+   <div class="preview" id="test-image-preview"> </div>
+    
+<script type="text/javascript">
+    var
+    fileInput = document.getElementById('fileImage'),
+    info = document.getElementById('test-file-info'),
+    file,
+    preview = document.getElementById('test-image-preview');
+    // 监听change事件:
+    fileInput.addEventListener('change', function () {
+    // 清除背景图片:
+    preview.style.backgroundImage = '';
+    // 检查文件是否选择:
+    if (!fileInput.value) {
+        info.innerHTML = '没有选择文件';
+        return;
+    }
+    // 获取File引用:
+    file = fileInput.files;
+    for(var i=0;i< file.length;i++){
+        preview.innerHTML = "<img"
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var
+            data = e.target.result; // 'data:image/jpeg;base64,/9j/4AAQSk...(base64编码)...'      
+            preview.style.backgroundImage = 'url(' + data + ')';
+        };
+        // 以DataURL的形式读取文件:
+        reader.readAsDataURL(file);
+    }
+    // 获取File信息:
+    // info.innerHTML = '文件: ' + file.name + '<br>' +
+    //         '大小: ' + file.size + '<br>' +
+    //         '修改: ' + file.lastModifiedDate;
+    
+    // 读取文件:
+    
+    });
+</script>
+ 
+</body>
+</html>
