@@ -16,16 +16,44 @@ for ($i=0; $i < count($radio); $i++) {
         $result .= $checkbox[$i];
     }
     switch ($result) {
+        //1
         case "意外门诊医疗":
             header("Location: $url1");
+            $result = null;
+            break;
+        //2
+        case "意外住院医疗":
+            header("Location: $url2");
+            $result = null;
+            break;
+        case "意外住院津贴":
+            header("Location: $url2");
             $result = null;
             break;
         case "意外住院医疗住院津贴":
             header("Location: $url2");
             $result = null;
             break;
+        //3
+        case "疾病住院医疗":
+            header("Location: $url3");
+            $result = null;
+            break;
+        case "疾病住院津贴":
+            header("Location: $url3");
+            $result = null;
+            break;
         case "疾病住院医疗住院津贴":
             header("Location: $url3");
+            $result = null;
+            break;
+        //4
+        case "意外门诊医疗住院医疗":
+            header("Location: $url4");
+            $result = null;
+            break;
+        case "意外门诊医疗住院津贴":
+            header("Location: $url4");
             $result = null;
             break;
         case "意外门诊医疗住院医疗住院津贴":
