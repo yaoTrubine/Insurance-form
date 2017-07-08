@@ -34,8 +34,29 @@
             </div>
             <input class="fileImage" type="file" name="fileselect[]" multiple="multiple" accept="image/*"/>
 
+            <h5>test1</h5>
+            <div class="box">
+                <div class="preview" > </div>
+            </div>
+            <input class="fileImage" type="file" name="fileselect[]" multiple="multiple" accept="image/*"/>
 
+            <h5>test2</h5>
+            <div class="box">
+                <div class="preview" > </div>
+            </div>
+            <input class="fileImage" type="file" name="fileselect[]" multiple="multiple" accept="image/*"/>
 
+            <h5>test1</h5>
+            <div class="box">
+                <div class="preview" > </div>
+            </div>
+            <input class="fileImage" type="file" name="fileselect[]" multiple="multiple" accept="image/*"/>
+
+            <h5>test2</h5>
+            <div class="box">
+                <div class="preview" > </div>
+            </div>
+            <input class="fileImage" type="file" name="fileselect[]" multiple="multiple" accept="image/*"/>
 
 
 
@@ -73,14 +94,11 @@
             elements_preview = getElements('form');
             
             //添加图片
-            function addFiles(html,eachFile){
-                for(var i=0;i<eachFile.length;i++){
-                    html.innerHTML += "<div style='float:left'><img id='img" + html.className + i+"' /></div>";
-                    imgObjectPreview = document.getElementById("img"+html.className+i);
-                    imgObjectPreview.style.display = 'block';
-                    imgObjectPreview.style.width = '200px';
-                    imgObjectPreview.style.height = '200px';
-                    imgObjectPreview.src = window.URL.createObjectURL(html.files[i]);
+            function addFiles(html){
+                for(var i=0;i<html.length;i++){
+                    html[i].style.display = 'block';
+                    html[i].style.width = '200px';
+                    html[i].style.height = '200px';
                 }
                 
             }
@@ -99,7 +117,12 @@
 
                     preview_Class = document.getElementsByClassName(e.target.className)[0];
                     console.log(preview_Class);
-                    addFiles(preview_Class,file);
+                    for(var k=0;k<file.length;k++){
+                        preview_Class.innerHTML += "<div style='float:left'><img class='img" + e.target.className + i+"' /></div>";
+                        imgObjectPreview = document.getElementsByClassName("img"+e.target.className+i);
+                        addFiles(imgObjectPreview);
+                        imgObjectPreview[k].src = window.URL.createObjectURL(e.target.files[k]);
+                    }
                 },false);
 
 

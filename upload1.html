@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,41 +7,171 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
     <title>上传资料</title>
     <style>
-        .preview{background-size: contain; background-repeat: no-repeat; background-position: center center;}
-        .preview img{margin: 20px 20px 0 0;}
+        .box{background-size: contain; background-repeat: no-repeat; background-position: center center;height: 240px;}
+        .box img{margin: 20px 20px 0 0;}
+        .container h5{margin-top: 30px;color: hotpink;}
+        input[type=submit]{margin-top: 40px;}
     </style>
 </head>
 <body>
-    <!--意外门诊医疗-->
+    <!--意外门诊医疗住院医疗住院津贴-->
     <h1>1</h1>
     <div class="container">
-        <form action="reseive.php" method="post" enctype="multipart/form-data">
-            <input id="fileImage" type="file" name="fileselect[]" multiple="multiple" onchange="javascript:setImagePreviews();" accept="image/*" value="意外门诊医疗"/>
-            <input type="submit" value="submit">
+        <form id="form" action="" method="post" enctype="multipart/form-data">
+        <!--<div class="preview" id="preview"> </div>
+        
+        <input id="fileImage" type="file" name="fileselect[]" multiple="multiple" onchange="javascript:setImagePreviews();" accept="image/*"/>-->
+
+            <h5>test1</h5>
+            <div class="box">
+                <div class="preview" > </div>
+            </div>
+            <input class="fileImage" type="file" name="fileselect[]" multiple="multiple" accept="image/*"/>
+
+            <h5>test2</h5>
+            <div class="box">
+                <div class="preview" > </div>
+            </div>
+            <input class="fileImage" type="file" name="fileselect[]" multiple="multiple" accept="image/*"/>
+
+            <h5>test1</h5>
+            <div class="box">
+                <div class="preview" > </div>
+            </div>
+            <input class="fileImage" type="file" name="fileselect[]" multiple="multiple" accept="image/*"/>
+
+            <h5>test2</h5>
+            <div class="box">
+                <div class="preview" > </div>
+            </div>
+            <input class="fileImage" type="file" name="fileselect[]" multiple="multiple" accept="image/*"/>
+
+            <h5>test1</h5>
+            <div class="box">
+                <div class="preview" > </div>
+            </div>
+            <input class="fileImage" type="file" name="fileselect[]" multiple="multiple" accept="image/*"/>
+
+            <h5>test2</h5>
+            <div class="box">
+                <div class="preview" > </div>
+            </div>
+            <input class="fileImage" type="file" name="fileselect[]" multiple="multiple" accept="image/*"/>
+
+
+
+
+
+            <input class="btn btn-danger form-control" type="submit" value="submit">
         </form>
-        <div class="preview" id="preview"> </div>
     </div>
 
    <script>
-       function setImagePreviews(value){
-            var 
-                input = document.getElementById('fileImage'),
-                preview = document.getElementById('preview'),
-                file = input.files;
-            ;
-        preview.innerHTML = "";
-        for(var i=0;i<file.length;i++){
-            preview.innerHTML += "<div style='float:left'><img id='img"+i+"' /></div>";
-            var imgObjectPreview = document.getElementById("img"+i);
-            if(input.files && input.files[i]){
-                imgObjectPreview.style.display = 'block';
-                imgObjectPreview.style.width = '200px';
-                imgObjectPreview.style.height = '200px';
-                imgObjectPreview.src = window.URL.createObjectURL(input.files[i]);
+
+        var input = document.getElementsByClassName('fileImage'),
+            preview = document.getElementsByClassName('preview'),
+            elements_input,elements_preview,file,imgObjectPreview,
+
+            preview_Class;
+
+            function getElements(formId){
+                elements_input = [];
+                elements_preview = [];
+
+                tagInput = document.getElementById(formId).getElementsByTagName('input');
+                tagDiv = document.getElementById(formId).getElementsByClassName('preview');
+                for(var i=0;i<tagInput.length;i++){
+                    elements_input.push(tagInput[i]);
+                }
+                for(var i=0;i<tagDiv.length;i++){
+                    elements_preview.push(tagDiv[i]);
+                }
+                elements_input.pop();
+                return elements_input,elements_preview;
             }
-        }
-            return true;
-       }
+
+            elements_input = getElements('form');
+            elements_preview = getElements('form');
+            
+            //添加图片
+            function addFiles(html){
+                for(var i=0;i<html.length;i++){
+                    html[i].style.display = 'block';
+                    html[i].style.width = '200px';
+                    html[i].style.height = '200px';
+                }
+                
+            }
+
+
+            for(var i=0;i<elements_input.length;i++){
+                elements_input[i].className = "preview"+ i;
+                elements_input[i].addEventListener('change',function(e){
+                    
+                    file = e.target.files;
+                    console.log(file);
+                    for(var j=0;j<elements_preview.length;j++){
+                        elements_preview[j].className = "preview"+j;
+                        
+                    }
+
+                    preview_Class = document.getElementsByClassName(e.target.className)[0];
+                    console.log(preview_Class);
+                    for(var k=0;k<file.length;k++){
+                        preview_Class.innerHTML += "<div style='float:left'><img class='img" + e.target.className + i+"' /></div>";
+                        imgObjectPreview = document.getElementsByClassName("img"+e.target.className+i);
+                        addFiles(imgObjectPreview);
+                        imgObjectPreview[k].src = window.URL.createObjectURL(e.target.files[k]);
+                    }
+                },false);
+
+
+            }
+
+
+
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //    function setImagePreviews(value){
+    //         var 
+    //             input = document.getElementById('fileImage'),
+    //             preview = document.getElementById('preview'),
+    //             file = input.files;
+    //         ;
+    //     preview.innerHTML = "";
+    //     for(var i=0;i<file.length;i++){
+    //         preview.innerHTML += "<div style='float:left'><img id='img"+i+"' /></div>";
+    //         var imgObjectPreview = document.getElementById("img"+i);
+    //         if(input.files && input.files[i]){
+    //             imgObjectPreview.style.display = 'block';
+    //             imgObjectPreview.style.width = '200px';
+    //             imgObjectPreview.style.height = '200px';
+    //             imgObjectPreview.src = window.URL.createObjectURL(input.files[i]);
+    //         }
+    //     }
+    //         return true;
+    //    }
    </script>
 </body>
 </html>
