@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+    <style>
+        input[type=radio]{width: 35px;height: 35px;vertical-align: middle;}
+    </style>
+    <!--<script>
+        function fsubmit(){
+            var data = new FormData($('#form1')[0]);
+            $.ajax({
+                url: 'server.php',
+                type: 'POST',
+                data: data,
+                dataType: 'JSON',
+                cache:false,
+                processData:false,
+                contentType:false,
+            }).done(function(ret){
+                if(ret['isSuccess']){
+                    var result = '';
+                    result += 'name=' + ret['name']+'<br>';
+                    result += 'gender' + ret['gender'] + '<br>';
+                    result += '<img src="'+ret['photo']+'" width="100">';
+                    $('#result').html(result);
+                    console.log('success');
+                }else{
+                    alert('提交失败');
+                }
+            });
+            return false;
+        }
+    </script>-->
+</head>
+<body>
+    <div class="container">
+        <form action="server.php" id="form1" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="">name:</label>
+                <input type="text" class="form-control" name="name">
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                <input id="1" type="radio" name="gender" value="male">
+                <label for="1">male</label>
+            </div>
+
+            <div class="col-md-6">
+                <input id="2" type="radio" name="gender" value="female">
+                <label for="2">female</label>
+            </div>
+            </div>
+            
+
+            
+            <div class="form-group">
+                <label for="">photo:</label>
+                <input type="file" class="form-control" name="photo" id="photo">
+            </div>
+            
+            <div class="form-group">
+                <label for=""></label>
+                <input type="submit" class="form-control btn-danger" value="submit" onclick="fsubmit()">
+            </div>
+            
+        </form>
+        <div id="result"></div>
+    </div>
+</body>
+</html>
