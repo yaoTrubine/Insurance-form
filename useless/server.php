@@ -1,31 +1,66 @@
 <?php
+//单文件上传
 // print_r($_FILES);
 // echo(__FILE__);
 // echo(__DIR__.'/uploads/'.$filename);
-
-function br(){
-    echo "<br>";
-}
-
+header('content-type:text/html;charset=utf-8');
 $fileinfo = $_FILES['photo'];
-print_r($fileinfo);
-br();
-print_r($fileinfo['name']);
+$filename = $fileinfo['name'];
+$tmp_name = $fileinfo['tmp_name'];
+$error = $fileinfo['error'];
 
 
-// echo(dirname('uploads/'));
-$filename = $_FILES['photo']['name'];
-$type = $_FILES['photo']['type'];
-$tmp_name = $_FILES['photo']['tmp_name'];
-$size = $_FILES['photo']['size'];
-$error = $_FILES['photo']['error'];
+$maxsize = 2097152; //最大值
+$allowExt = array('jpeg','jpg','png','bmp','gif'); //允许上传的文件名
+$flag = true;
+
+// function br(){
+//     echo "<br>";
+// }
+
+// br();
+
+// print_r($fileinfo);
 
 //将服务器上的临时文件移动指定目录下
-// if(move_uploaded_file($tmp_name,__DIR__.'/uploads/'.$filename)){
-//     echo 'success';
-// }else{
-//     echo 'failed';
-// }
+if($error == 0){
+    if($fileinfo['size'] > $maxsize){
+        exit('上传文件太大');
+    }
+    //$ext = strtolower(end(explode('.',$filename))); //第一种获取文件后缀方法
+    $ext = pathinfo($filename,PATHINFO_EXTENSION);  //第二种获取文件后缀方法
+    if(!in_array($ext,$allowExt)){
+        exit('非法文件类型');
+    }
+    //判断文件是否通过HTTP POST方式上传来的
+    if(!is_uploaded_file($tmp_name)){
+        exit('文件不是通过POST方式上传来的');
+    }
+
+    //检测是否为真实的文件类型
+    // getimagesize($filename);    得到指定图片信息，如果是图片返回数组;如果不是图片返回false
+    if($flag){
+        if(!getimagesize($tmp_name)){
+            exit('不是真正的文件类型');  
+        }
+    }
+
+    //确保文件上传一定有目录
+    $path = __DIR__.'/uploads';
+    if(!file_exists($path)){
+        mkdir($path, 0777, true);
+        chmod($path, 0777);
+    }
+
+    $uniName = md5(uniqid(microtime(true),true)).'.'.$ext;
+    $destination = $path.'/'.$uniName;
+    if(@move_uploaded_file($tmp_name,$destination)){
+        echo '文件上传成功';
+    }else{
+        echo '上传失败';
+    }
+}
+
 
 //上传文件错误信息
 //UPLOAD_ERR_OK：0          没有错误，上传成功
